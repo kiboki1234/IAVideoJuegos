@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,6 +11,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
     <div class="app-container">
         <!-- Header -->
@@ -68,10 +70,22 @@
                         Configuración
                     </h3>
                     <div class="setting-row">
+                        <label for="mazeAlgo">Tipo de Laberinto</label>
+                        <select id="mazeAlgo" class="maze-select">
+                            <option value="backtracking">🌀 Backtracking (Corredores largos)</option>
+                            <option value="prims">🌳 Prim's (Más ramificado)</option>
+                            <option value="kruskals">🔗 Kruskal's (Aleatorio uniforme)</option>
+                            <option value="ellers">📊 Eller's (Fila por fila)</option>
+                            <option value="huntandkill">🎯 Hunt & Kill (Pasajes largos)</option>
+                            <option value="binary">📐 Binary Tree (Diagonal)</option>
+                            <option value="sidewinder">↔️ Sidewinder (Horizontal)</option>
+                        </select>
+                    </div>
+                    <div class="setting-row">
                         <label for="mazeSize">Tamaño del laberinto</label>
                         <div class="size-control">
                             <span class="size-value" id="sizeValue">21 × 21</span>
-                            <input type="range" id="mazeSize" min="11" max="51" step="2" value="21">
+                            <input type="range" id="mazeSize" min="11" max="71" step="2" value="21">
                         </div>
                     </div>
                     <div class="setting-row">
@@ -175,4 +189,5 @@
     <script src="js/renderer.js"></script>
     <script src="js/game.js"></script>
 </body>
+
 </html>

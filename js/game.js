@@ -18,6 +18,7 @@ class Game {
         this.isRunning = false;
         this.isPaused = false;
         this.currentAlgorithm = 'bfs';
+        this.mazeAlgorithm = 'backtracking';
         this.animationSpeed = 50;
         this.mazeSize = 21;
 
@@ -60,6 +61,14 @@ class Game {
                 this.currentAlgorithm = btn.dataset.algo;
             });
         });
+
+        // Maze algorithm selector
+        const mazeAlgoSelect = document.getElementById('mazeAlgo');
+        if (mazeAlgoSelect) {
+            mazeAlgoSelect.addEventListener('change', () => {
+                this.mazeAlgorithm = mazeAlgoSelect.value;
+            });
+        }
 
         // Maze size slider
         const sizeSlider = document.getElementById('mazeSize');
@@ -123,8 +132,8 @@ class Game {
     generateMaze() {
         this.stop();
 
-        // Create new maze
-        this.maze = new Maze(this.mazeSize);
+        // Create new maze with selected algorithm
+        this.maze = new Maze(this.mazeSize, this.mazeAlgorithm);
         this.maze.generate();
 
         // Initialize renderer
