@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎮 Pathfinding Maze Solver - Algoritmos de Búsqueda</title>
+    <meta name="description" content="Juego educativo de búsqueda de caminos con algoritmos BFS, DFS, A* y Dijkstra">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <span class="logo-icon">🧭</span>
+                <h1>Pathfinding Maze Solver</h1>
+            </div>
+            <p class="subtitle">Visualiza cómo los algoritmos de búsqueda resuelven laberintos</p>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Maze Canvas Section -->
+            <section class="maze-section">
+                <div class="canvas-wrapper">
+                    <canvas id="mazeCanvas"></canvas>
+                    <div class="canvas-overlay" id="overlay">
+                        <span class="overlay-text">Genera un laberinto para comenzar</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Controls Section -->
+            <aside class="controls-section">
+                <!-- Algorithm Selection -->
+                <div class="control-card">
+                    <h3 class="card-title">
+                        <span class="card-icon">🔍</span>
+                        Algoritmo
+                    </h3>
+                    <div class="algorithm-grid">
+                        <button class="algo-btn active" data-algo="bfs">
+                            <span class="algo-name">BFS</span>
+                            <span class="algo-desc">Búsqueda en Anchura</span>
+                        </button>
+                        <button class="algo-btn" data-algo="dfs">
+                            <span class="algo-name">DFS</span>
+                            <span class="algo-desc">Búsqueda en Profundidad</span>
+                        </button>
+                        <button class="algo-btn" data-algo="astar">
+                            <span class="algo-name">A*</span>
+                            <span class="algo-desc">Heurística Manhattan</span>
+                        </button>
+                        <button class="algo-btn" data-algo="dijkstra">
+                            <span class="algo-name">Dijkstra</span>
+                            <span class="algo-desc">Camino más corto</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Maze Settings -->
+                <div class="control-card">
+                    <h3 class="card-title">
+                        <span class="card-icon">⚙️</span>
+                        Configuración
+                    </h3>
+                    <div class="setting-row">
+                        <label for="mazeSize">Tamaño del laberinto</label>
+                        <div class="size-control">
+                            <span class="size-value" id="sizeValue">21 × 21</span>
+                            <input type="range" id="mazeSize" min="11" max="51" step="2" value="21">
+                        </div>
+                    </div>
+                    <div class="setting-row">
+                        <label for="speed">Velocidad de animación</label>
+                        <div class="speed-control">
+                            <span class="speed-label">🐢</span>
+                            <input type="range" id="speed" min="1" max="100" value="50">
+                            <span class="speed-label">🐇</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="control-card actions-card">
+                    <button class="action-btn primary" id="generateBtn">
+                        <span class="btn-icon">🔄</span>
+                        Generar Laberinto
+                    </button>
+                    <button class="action-btn success" id="solveBtn" disabled>
+                        <span class="btn-icon">▶️</span>
+                        Resolver
+                    </button>
+                    <button class="action-btn danger" id="stopBtn" disabled>
+                        <span class="btn-icon">⏹️</span>
+                        Detener
+                    </button>
+                </div>
+
+                <!-- Metrics -->
+                <div class="control-card metrics-card">
+                    <h3 class="card-title">
+                        <span class="card-icon">📊</span>
+                        Métricas
+                    </h3>
+                    <div class="metrics-grid">
+                        <div class="metric">
+                            <span class="metric-value" id="nodesVisited">0</span>
+                            <span class="metric-label">Nodos Visitados</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-value" id="pathLength">0</span>
+                            <span class="metric-label">Longitud del Camino</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-value" id="timeElapsed">0 ms</span>
+                            <span class="metric-label">Tiempo</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Legend -->
+                <div class="control-card legend-card">
+                    <h3 class="card-title">
+                        <span class="card-icon">🎨</span>
+                        Leyenda
+                    </h3>
+                    <div class="legend-grid">
+                        <div class="legend-item">
+                            <span class="legend-color wall"></span>
+                            <span>Pared</span>
+                        </div>
+                        <div class="legend-item">
+                            <span class="legend-color path"></span>
+                            <span>Camino</span>
+                        </div>
+                        <div class="legend-item">
+                            <span class="legend-color start"></span>
+                            <span>Inicio</span>
+                        </div>
+                        <div class="legend-item">
+                            <span class="legend-color end"></span>
+                            <span>Meta</span>
+                        </div>
+                        <div class="legend-item">
+                            <span class="legend-color visited"></span>
+                            <span>Visitado</span>
+                        </div>
+                        <div class="legend-item">
+                            <span class="legend-color solution"></span>
+                            <span>Solución</span>
+                        </div>
+                        <div class="legend-item">
+                            <span class="legend-color npc"></span>
+                            <span>NPC</span>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>🧠 Algoritmos de IA para Videojuegos - Universidad</p>
+        </footer>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/maze.js"></script>
+    <script src="js/algorithms.js"></script>
+    <script src="js/npc.js"></script>
+    <script src="js/renderer.js"></script>
+    <script src="js/game.js"></script>
+</body>
+</html>
